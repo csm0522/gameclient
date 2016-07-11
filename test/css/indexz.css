@@ -1,0 +1,20 @@
+body {
+	background: url(../img/1466488227832191.jpg);
+	background-position: center;
+}
+.clear{
+	clear:both;
+}
+.pdiv {
+	float: left;
+	background-color: white;
+	text-align: center;
+}
+
+.pdiv img {
+	padding: 5px 10px 5px;
+	border: 1px solid none;
+}
+.pdiv p{
+	font-family: "微软雅黑";
+}
