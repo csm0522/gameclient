@@ -8,7 +8,20 @@ body {
 .pdiv {
 	float: left;
 	background-color: white;
+	margin:20px;
 	text-align: center;
+	box-shadow: 0px 0px 30px lightgray;
+	/*box-shadow:0px 2px 5px red, 0px -4px 5px yellow,4px 0px green , -4px 0px 5px blue;*/
+	border-radius : 10px;
+	transition: transform 0.3s linear;
+}
+.pdiv:nth-child(2n){
+	/*transform: rotate(30deg);*/
+}
+/*当悬停在包括.pdiv类的奇数个时才发生变换*/
+.pdiv:nth-child(odd):hover{
+	transform: scale(1.2);
+	transform: rotate(180deg);
 }
 
 .pdiv img {
