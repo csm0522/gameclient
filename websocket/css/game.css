@@ -1,0 +1,182 @@
+@font-face {
+	font-family:'game';
+	src: url(汉仪雪君体简.ttf);
+}
+
+body,html {
+	font-family: game;
+	font-size: 12px;
+}
+
+.login-con {
+	background-image: url(../img/login-bg.jpg);
+	width: 1200px;
+	height: 600px;
+	margin: auto;
+	position: relative;
+}
+
+.login-con input[type=text] {
+	position: absolute;
+	left: 480px;
+	bottom: 175px;
+	height: 50px;
+	width: 230px;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	color: white;
+	text-align: center;
+	font-family: game;
+	font-size: 18px;
+	transition: all 0.5s linear;
+}
+
+.login-con button {
+	position: absolute;
+	left: 480px;
+	bottom: 90px;
+	height: 50px;
+	width: 200px;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	color: white;
+	text-align: center;
+	font-family: game;
+	font-size: 18px;
+	transition: all 0.5s linear;
+}
+
+.login-con input:hover,.login-con button:hover {
+	color: green;
+} 
+
+.roomlist {
+	position: relative;
+	height:600px;
+	margin:auto;
+	background-image: url(../img/main-bg.jpg);
+	background-repeat: no-repeat;
+}
+.userinfo{
+	position: absolute;
+	top:72px;
+	left:108px;
+	width: 250px;
+	height:135px;
+	  
+}
+.userinfo p{
+	font-size: 16px;
+}
+.roominfo{
+	position: absolute;
+	bottom:142px;
+	left:100px;
+	width: 280px;
+	height:159px;
+}
+.roominfo .header h1{
+	float: left;
+	margin:0;
+}
+.roominfo .header span{
+	float:right;
+	margin-top:10px;
+	margin-right:10px;
+}
+.roominfo .header:after,.header:before{
+	content: ' ';
+	display: block;
+	clear: both;
+}
+.roominfo .body{
+	height:80%;
+	margin-top:10px;
+	overflow-y: scroll;
+}
+.roominfo .body table{
+	width:100%;
+}
+.roominfo .body table tr{
+	height: 30px;
+}
+
+.roomlist h1 {
+	text-align: center;
+}
+.rooms{
+	position: absolute;
+	top:50px;
+	left:450px;
+	width:670px;
+	height:170px;
+}
+.rooms .body{
+	height:120px;
+	margin-bottom: 5px;
+	overflow-y:scroll;
+}
+.rooms .body .room{
+	float:left;
+	margin: 10px 20px;
+	text-align: center;
+}
+.room:after, .room:before{
+	content: ' ';
+	display: block;
+	clear: both;
+}
+.chats {
+	position: absolute;
+	bottom:65px;
+	left:450px;
+	width:670px;
+	height: 250px;
+}
+/*.chats .body{
+	
+}*/
+.chats .body ul{
+	height:170px;
+	list-style: none;
+	padding: 2px;
+	margin: 0;
+	overflow-y:scroll;
+}
+.chats .body ul li{
+	font-size: 14px;
+	height: 20px;
+	line-height: 20px;
+}
+.chats .footer{
+	text-align: center;
+}
+.chats .footer input[type="text"]{
+	width:200px;
+	margin-right: 30px;
+	border: 1px solid gray;
+	border-radius: 10px;
+}
+.chats .footer .btn{
+	width:50px;
+	border: 1px solid gray;
+	border-radius: 10px;
+	color: gray;
+	background-color: transparent;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

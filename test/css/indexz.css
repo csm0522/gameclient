@@ -6,14 +6,15 @@ body {
 	clear:both;
 }
 .pdiv {
+	position:relative;
 	float: left;
 	background-color: white;
 	margin:20px;
 	text-align: center;
 	box-shadow: 0px 0px 30px lightgray;
-	/*box-shadow:0px 2px 5px red, 0px -4px 5px yellow,4px 0px green , -4px 0px 5px blue;*/
 	border-radius : 10px;
 	transition: transform 0.3s linear;
+	overflow: none;
 }
 .pdiv:nth-child(2n){
 	/*transform: rotate(30deg);*/
@@ -21,7 +22,10 @@ body {
 /*当悬停在包括.pdiv类的奇数个时才发生变换*/
 .pdiv:nth-child(odd):hover{
 	transform: scale(1.2);
-	transform: rotate(180deg);
+	/*transform: rotate(180deg);*/
+}
+.pdiv:hover p{
+	bottom:0px;
 }
 
 .pdiv img {
@@ -29,5 +33,11 @@ body {
 	border: 1px solid none;
 }
 .pdiv p{
+	position: absolute;
+	margin:0;
+	height:30px;
+	bottom:-30px;
+	width:100% ;
 	font-family: "微软雅黑";
+	transform: all 0.3s linear ;
 }
