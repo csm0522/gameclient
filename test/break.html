@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		food:
+		<select name="" id="foods">
+			<option value="">包子</option>
+			<option value="">馒头</option>
+			<option value="">手抓饼</option>
+		</select>
+		number：
+		<input type="number" name="" id="num" value="" />
+		<button id＝ "sub" onclick='sub()'>确定</button>
+	</body>
+	<script>
+		function sub() {
+			var money = 0;
+			var num = document.getElementById("num").value;
+			var foods = document.getElementById("foods");
+			var index = foods.selectedIndex ;   
+			var food = foods.options[index].text;
+			switch(food) {
+				case "包子":
+				money = num*1.25;
+					break;
+				case "馒头":
+				money = num*1.0;
+					break;
+				case "手抓饼":
+				money = num*7.0;
+					break;
+			}
+			//money的格式化处理
+			money=money.toFixed(2);
+			var arr=money.split(".");
+			var temp = arr[0];
+			var index = Math.ceil(temp.length/3) - 1;//四舍五入
+			money = "";
+			for(var i =0 ;i<index;i++){
+				money = ","+temp.slice(temp.length-3)+money;
+				temp = temp.slice(0,temp.length-3);
+			}
+			money = temp + money + "." + temp[1];
+			alert(money);
+		}
+	</script>
+
+</html>

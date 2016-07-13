@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>test_2</title>
+		<style>
+			.btn {
+				border: 1px solid red;
+				border-radius: 10px;
+				color: red;
+			}
+			
+			body {
+				transition: all 0.3s cubic-bezier(0.88, 0.01, 1, 1);
+			}
+		</style>
+	</head>
+
+	<body>
+		<botton class="btn" onclick="ons()" id="lint">off</botton>
+	</body>
+	<script type="text/javascript">
+		var i = document.getElementById("lint");
+		function ons() {
+			if(i.innerText == "off") {
+				document.body.setAttribute("style", "background-color: black;");
+				i.innerText = "on";
+			} else {
+				document.body.setAttribute("style", "background-color: white;");
+				i.innerText = "off";
+			}
+		}
+	</script>
+
+</html>
