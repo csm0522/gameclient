@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>html5-canvas</title>
+		<script src="js/jquery-1.12.4.js"></script>
+		<script>
+			$(function() {
+				//				新定义画笔,jq只是一个对dom进行包装，getcontext是针对js原生dom对象，所以需要加上get(0)来获取原生dom对象
+				var pen = $("#can").get(0).getContext("2d");
+
+				//线
+//				pen.lineWidth = 1; //线宽
+				//				pen.lineCap="round";//线端点的形状
+				//				pen.strokeStyle = "#DB7093"//轮廓颜色
+				//				pen.lineJoin="round";//交汇的
+				//				pen.moveTo(270,30);//起点
+				//				pen.lineTo(30,270);//终点
+				//				pen.lineTo(30,70);//终点
+				//				pen.stroke();//画出轮廓
+
+				//画矩形
+				//								pen.rect(30,30,200,200);//x,y,w,h
+				//pen.strokeStyle="#008000";//轮廓
+				//								pen.fillStyle="#ccc";//填充颜色
+				//								
+				//								pen.shadowColor="red";//阴影颜色
+				//								pen.shadowBlur=10;//阴影模糊
+				//								pen.shadowOffsetX=20;//阴影平移x
+				//								pen.shadowOffsetY=-1;//阴影平移y
+				//								pen.fill();
+				//								pen.stroke();
+				//				
+				////				pen.clear;//清空画布
+				//				pen.beginPath();// 创建边界，有点类似于opengl的栈
+				//				pen.closePath();// 关闭边界，有点类似于opengl的栈
+
+				//随机画矩形	
+				//				setInterval(function() {
+				//					pen.clearRect(0,0,300,300);
+				//					for(var i = 0; i < 10; i++) {
+				//						pen.beginPath();
+				//						x = Math.random() * 300;
+				//						y = Math.random() * 300;
+				//						pen.rect(x, y, 50, 50);
+				//						pen.fillStyle = GetrandomColor();
+				//						pen.fill();
+				//						pen.closePath();
+				//					}
+				//				},1000)
+
+				var i = 0;
+				pen.lineWidth=10;
+				var ls =pen.createLinearGradient(50,50,150,0);
+				ls.addColorStop(0,"green");
+				ls.addColorStop(1,"purple");
+				setInterval(function() {
+					pen.beginPath(); //开启端点
+					pen.lineCap = "round";
+					pen.strokeStyle = ls;
+					pen.arc(100, 100, 50, 0, i * Math.PI); //x,y,r,start,end
+					pen.stroke(); //画出轮廓
+					pen.closePath(); //自动闭合开始端点
+					if(i < 2) {
+						i += 0.05;
+					}
+				}, 100);
+				pen.lineWidth=10;
+
+			});
+
+			function GetrandomColor() {
+				return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).slice(-6);
+			}
+		</script>
+	</head>
+
+	<body>
+		<canvas id="can" width="300px" height="300px"></canvas>
+	</body>
+
+</html>

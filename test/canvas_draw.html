@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/jquery-1.12.4.js"></script>
+		
+	</head>
+
+	<body>
+		<div style="margin: auto;">
+			<button id="pencil">铅笔</button>
+			<button id="line">直线</button>
+			<button id="rect">矩形</button>
+			<button id="circle">圆形</button>
+			<button id="rcircle">同心圆</button>
+			<button id="eraser">橡皮擦</button>
+			<button id="saver">保存</button>
+			<select name="linewidth" id="linewidth">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+			<select name="color" id="linecolor">
+				<option value="black">black</option>
+				<option value="red">red</option>
+				<option value="blue">blue</option>
+				<option value="yellow">yellow</option>
+				<option value="purple">purple</option>
+			</select>
+			<div style="margin-top: 20px;">
+				<canvas id="cans" width="600px" height="300px" style="background-color: #ccc;"></canvas>
+			</div>
+			<div id="res"></div>
+		</div>
+	</body>
+<script src="js/canvas_draw.js"></script>
+</html>
