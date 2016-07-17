@@ -68,12 +68,32 @@ io.on('connection', function(socket) {
 		io.sockets.in("public").emit("room.rooms", getArr(rooms));
 		//通知玩家
 		socket.emit("room.joinOK", rooms[roomname]);
-		 //通知房主
-		 socket.in(roomname).emit("room.success",rooms[roomname]);
+		//通知房主
+		socket.in(roomname).emit("room.success", rooms[roomname]);
 		//更新状态新消息
 		io.sockets.emit('user.online', getArr(users));
-	})
-	
+	});
+
+	socket.on("game.start", function() {
+		var user = users[socket.id.replace("/#", '')];
+		var room = rooms[user.room];
+		if(room.player1 && room.player2) {
+			//player1 gamestart order
+			socket.emit("game.start", 0);
+			//player2 gamestart order
+			socket.in(user.room).emit("game.start", 1);
+
+			room.player1.status = 3;
+			room.player2.status = 3;
+			io.sockets.emit("user.online", getArr(users));
+		}
+	});
+
+	socket.on("game.changedata", function(data) {
+		var user = users[socket.id.replace("/#", '')];
+		socket.in(user.room).emit("game.changedata", data);
+	});
+
 });
 //object转为数组
 function getArr(arrname) {

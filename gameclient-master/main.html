@@ -7,10 +7,11 @@
 		<link rel="stylesheet" type="text/css" href="css/game.css" />
 		<script src="js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/socket.io.js" type="text/javascript" charset="utf-8"></script>
-
+		<script src="js/game.js"></script>
 	</head>
 
 	<body>
+		<div id="platform" style="margin: auto"></div>
 		<div class="main-con">
 			<div class="userinfo">
 				<h1></h1>
@@ -47,6 +48,7 @@
 			<input type="" name="" id="roomname" value="" />
 			<button id="createroom">创建房间</button>
 		</div>
+		
 	</body>
 
 	<script type="text/javascript">
@@ -102,12 +104,16 @@
 			socket.on("room.full",function(room){
 				alert("房间已满");
 			});
-//			socket.on("room.ready",function(){
-//				initRooms();
-//			})
 			socket.on("room.joinOK",function(room){
 				joinRoom(room,false);
-			})
+			});
+			socket.on("game.start",function(data){
+				gameInit("platform",data);
+			});
+			socket.on("game.changedata",function(data){
+				draw(data.row,data.col,data.flag);
+				status = "run";
+			});
 		});
 
 		function initUser(user) {
@@ -170,10 +176,16 @@
 				html += "player2:" + room.player2.nickname ;
 			}
 			if(iscreate){
-				html += "<button>start</button>";
+				html += "<button id='startgame'>start</button>";
 			}
-			html += "<button>quit</button>";
+			html += "<button id='stopgame'>quit</button>";
 			$(".rooms .body").html(html);
+			$("#startgame").click(function(){
+				socket.emit("game.start");
+			});
+			$("#stopgame").click(function(){
+				socket.emit("game.stop");
+			})
 		}
 		
 	</script>

@@ -1,18 +1,19 @@
 var pen = null;
 var flag = 0; //1->white,0 ->black
 var cheese = [];
-var res =0;
-function gameInit(id) {
+var res = 0;
+var status = "run"; //run & wait
+function gameInit(id, _flag) {
 	var html = '<canvas id="five" width="600px" height="600px" style="display:block;background-color:teal"></canvas>'
 
 	if(id) {
-		$('#' + id).append(html);
+		$("#" + id).append(html);
 	} else {
 		$("body").append(html);
 	}
 	//由于页面还未渲染。所以在渲染之前取对象无效
 	var cans = $("#five");
-	var offset = cans.offset();
+	var offset = cans.offset($(body).offest());
 	pen = cans[0].getContext("2d");
 	pen.strokeStyle = "#CCCCCC";
 	pen.beginPath();
@@ -35,7 +36,30 @@ function gameInit(id) {
 	}
 	pen.closePath();
 
+	switch(_flag) { //first is black
+		case 0:
+			flag = 0;
+			status = "run";
+			showChat({
+				nickname: "系统提示",
+				msg: "系统分配，先手执黑"
+			}, true);
+			break;
+		case 1:
+			flag = 1;
+			status = "wait";
+			showChat({
+				nickname: "系统提示",
+				msg: "系统分配，先手执黑"
+			}, true);
+			break;
+	}
+
 	cans.unbind().mousedown(function(evnet) {
+		if(status == "wait") {
+			alert("目前由对方执棋");
+			return;
+		}
 		if(res == 0) {
 			var x = event.clientX - offset.left;
 			var y = event.clientY - offset.top;
@@ -43,10 +67,12 @@ function gameInit(id) {
 			var col = Math.floor(x / 40.0);
 
 			console.log(row, col);
-			if(cheese[row][col] == -1) {
+			if(cheese[row][col] != -1) {
+				return;
+			} else if(cheese[row][col] == -1) {
 				cheese[row][col] = flag;
 				pen.beginPath();
-				switch(flag) {
+				switch(flag) { //first is black
 					case 0:
 						pen.fillStyle = "#000000";
 						break;
@@ -57,11 +83,35 @@ function gameInit(id) {
 				pen.arc(col * 40 + 20, row * 40 + 20, 15, 0, 2 * Math.PI); //x,y,r,start,end
 				pen.fill();
 				pen.closePath();
+				//change
+				socket.emit("game.changedata", {
+					row: row,
+					col: col,
+					flag: flag,
+				});
+				status = "wait";
 				gameover(row, col, flag);
-				flag = flag == 0 ? 1 : 0;
+//				flag = flag == 0 ? 1 : 0;
 			}
 		}
 	})
+
+}
+
+function draw(row, col, flag) {
+	cheese[row][col] = flag;
+	pen.beginPath();
+	switch(flag) { //first is black
+		case 0:
+			pen.fillStyle = "#000000";
+			break;
+		case 1:
+			pen.fillStyle = "#eee";
+			break;
+	}
+	pen.arc(col * 40 + 20, row * 40 + 20, 15, 0, 2 * Math.PI); //x,y,r,start,end
+	pen.fill();
+	pen.closePath();
 }
 
 function gameover(row, col, flag) {
@@ -104,7 +154,8 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");res = 1;
+		alert("game over!" + str + " win");
+		res = 1;
 		return;
 	}
 	count = 1;
@@ -116,7 +167,8 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");res = 1;
+		alert("game over!" + str + " win");
+		res = 1;
 		return;
 	}
 	count = 1;
@@ -130,7 +182,8 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");res = 1;
+		alert("game over!" + str + " win");
+		res = 1;
 		return;
 	}
 	count = 1;
@@ -143,7 +196,8 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");res = 1;
+		alert("game over!" + str + " win");
+		res = 1;
 		return;
 	}
 	count = 1;
@@ -156,7 +210,8 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");res = 1;
+		alert("game over!" + str + " win");
+		res = 1;
 		return;
 	}
 	count = 1;
@@ -169,15 +224,16 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");res = 1;
+		alert("game over!" + str + " win");
+		res = 1;
 		return;
 	}
 	count = 1;
 }
 
-$("#replay").click(function(){
-	pen.clearRect(0,0,600,600);
+$("#replay").click(function() {
+	pen.clearRect(0, 0, 600, 600);
 	res = 0;
-	cheese=[];
+	cheese = [];
 	gameInit();
 })
