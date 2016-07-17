@@ -13,7 +13,7 @@ function gameInit(id, _flag) {
 	}
 	//由于页面还未渲染。所以在渲染之前取对象无效
 	var cans = $("#five");
-	var offset = cans.offset($(body).offest());
+	var offset = cans.offset();
 	pen = cans[0].getContext("2d");
 	pen.strokeStyle = "#CCCCCC";
 	pen.beginPath();
