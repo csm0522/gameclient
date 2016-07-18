@@ -21,7 +21,7 @@
 			<div class="online">
 				<div class="head">
 					<h3>在线列表</h3>
-					<span>78/108人</span>
+					<span></span>
 				</div>
 				<div class="body">
 					<table></table>
@@ -99,7 +99,7 @@
 				initRooms(rooms);
 			});
 			socket.on("room.success", function(room) {
-				joinRoom(room, true);
+				joinRoom(room, true);//player1
 			});
 			socket.on("room.full", function(room) {
 				alert("房间已满");
@@ -119,7 +119,6 @@
 				$("#platform").html("");
 				//Init array
 				cheese = [];
-
 				//update the localstorage of user
 				localStorage.setItem("user", JSON.stringify(user));
 				initUser(user);
@@ -142,6 +141,7 @@
 				html += '</tr>';
 			}
 			$(".online table").html(html);
+			$(".online .head span").html(users.length+"人");
 		}
 
 		function initRooms(rooms) {
@@ -194,7 +194,13 @@
 				socket.emit("game.start");
 			});
 			$("#stopgame").click(function() {
-				socket.emit("game.stop");
+				var user2 = localStorage.getItem("user");
+				if(user2.status==3){
+					alert("游戏中不能退出");
+				}else{
+					socket.emit("room.leave");
+				}
+				
 			})
 		}
 	</script>

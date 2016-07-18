@@ -4,7 +4,7 @@ var cheese = [];
 var res = 0;
 var status = "run"; //run & wait
 function gameInit(id, _flag) {
-	
+
 	var html = '<canvas id="five" width="600px" height="600px" style="display:block;background-color:teal"></canvas>'
 
 	if(id) {
@@ -30,7 +30,7 @@ function gameInit(id, _flag) {
 		pen.stroke();
 	}
 	//Init Array
-	cheese=[];
+	cheese = [];
 	for(var i = 0; i < 15; i++) {
 		var temp = [];
 		for(var j = 0; j < 15; j++) {
@@ -39,8 +39,9 @@ function gameInit(id, _flag) {
 		cheese.push(temp);
 	}
 	pen.closePath();
-
-	switch(_flag) { //first is black
+	
+	switch(_flag) {
+		//first is black
 		case 0:
 			flag = 0;
 			status = "run";
@@ -97,7 +98,7 @@ function gameInit(id, _flag) {
 				if(gameover(row, col, flag)) {
 					socket.emit("game.over");
 				}
-				//				flag = flag == 0 ? 1 : 0;
+				//flag = flag == 0 ? 1 : 0;
 			}
 		}
 	})
@@ -132,7 +133,7 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		//		alert("game over!" + str + " win");
+		//alert("game over!" + str + " win");
 		res = 1;
 		return true;
 	}
