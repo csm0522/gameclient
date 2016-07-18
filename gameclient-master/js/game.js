@@ -4,6 +4,7 @@ var cheese = [];
 var res = 0;
 var status = "run"; //run & wait
 function gameInit(id, _flag) {
+	
 	var html = '<canvas id="five" width="600px" height="600px" style="display:block;background-color:teal"></canvas>'
 
 	if(id) {
@@ -17,6 +18,7 @@ function gameInit(id, _flag) {
 	pen = cans[0].getContext("2d");
 	pen.strokeStyle = "#CCCCCC";
 	pen.beginPath();
+	//draw the platform
 	for(var i = 0; i < 15; i++) {
 		pen.moveTo(0, i * 40);
 		pen.lineTo(600, i * 40);
@@ -27,6 +29,8 @@ function gameInit(id, _flag) {
 		pen.lineTo(i * 40, 600);
 		pen.stroke();
 	}
+	//Init Array
+	cheese=[];
 	for(var i = 0; i < 15; i++) {
 		var temp = [];
 		for(var j = 0; j < 15; j++) {
@@ -90,8 +94,10 @@ function gameInit(id, _flag) {
 					flag: flag,
 				});
 				status = "wait";
-				gameover(row, col, flag);
-//				flag = flag == 0 ? 1 : 0;
+				if(gameover(row, col, flag)) {
+					socket.emit("game.over");
+				}
+				//				flag = flag == 0 ? 1 : 0;
 			}
 		}
 	})
@@ -126,9 +132,9 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");
+		//		alert("game over!" + str + " win");
 		res = 1;
-		return;
+		return true;
 	}
 	count = 1;
 	for(var i = row + 1; i < 15; i++) {
@@ -139,9 +145,9 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");
+		//		alert("game over!" + str + " win");
 		res = 1;
-		return;
+		return true;
 
 	}
 	count = 1;
@@ -154,9 +160,9 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");
+		//		alert("game over!" + str + " win")
 		res = 1;
-		return;
+		return true;
 	}
 	count = 1;
 	for(var i = row + 1; i < 15; i++) {
@@ -167,9 +173,9 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");
+		//		alert("game over!" + str + " win");
 		res = 1;
-		return;
+		return true;
 	}
 	count = 1;
 	//对角线row col
@@ -182,9 +188,9 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");
+		//		alert("game over!" + str + " win");
 		res = 1;
-		return;
+		return true;
 	}
 	count = 1;
 	//右上row-col+
@@ -196,9 +202,9 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");
+		//		alert("game over!" + str + " win");
 		res = 1;
-		return;
+		return true;
 	}
 	count = 1;
 	//左下row +col-
@@ -210,9 +216,9 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");
+		//		alert("game over!" + str + " win");
 		res = 1;
-		return;
+		return true;
 	}
 	count = 1;
 	//右下row + col +
@@ -224,16 +230,23 @@ function gameover(row, col, flag) {
 		}
 	}
 	if(count >= 5) {
-		alert("game over!" + str + " win");
+		//		alert("game over!" + str + " win");
 		res = 1;
-		return;
+		return true;
 	}
 	count = 1;
 }
 
 $("#replay").click(function() {
-	pen.clearRect(0, 0, 600, 600);
-	res = 0;
-	cheese = [];
-	gameInit();
-})
+		pen.clearRect(0, 0, 600, 600);
+		res = 0;
+		cheese = [];
+		gameInit();
+	})
+	//when game over : 
+	//1:to tell server that the game is over,it must be the player won the game;
+	//2:update the players status,win,and total
+	//3:update the information of players and the list of online
+function whenGameover() {
+
+}

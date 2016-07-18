@@ -7,7 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="css/game.css" />
 		<script src="js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/socket.io.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/game.js"></script>
+
 	</head>
 
 	<body>
@@ -48,9 +48,9 @@
 			<input type="" name="" id="roomname" value="" />
 			<button id="createroom">创建房间</button>
 		</div>
-		
-	</body>
 
+	</body>
+	<script src="js/game.js"></script>
 	<script type="text/javascript">
 		var user = null;
 		var socket = io('http://localhost:3000', {
@@ -99,26 +99,33 @@
 				initRooms(rooms);
 			});
 			socket.on("room.success", function(room) {
-				joinRoom(room,true);
+				joinRoom(room, true);
 			});
-			socket.on("room.full",function(room){
+			socket.on("room.full", function(room) {
 				alert("房间已满");
 			});
-			socket.on("room.joinOK",function(room){
-				joinRoom(room,false);
+			socket.on("room.joinOK", function(room) {
+				joinRoom(room, false);
 			});
-			socket.on("game.start",function(data){
-				gameInit("platform",data);
+			socket.on("game.start", function(data) {
+				gameInit("platform", data);
 			});
-			socket.on("game.changedata",function(data){
-				draw(data.row,data.col,data.flag);
+			socket.on("game.changedata", function(data) {
+				draw(data.row, data.col, data.flag);
 				status = "run";
+			});
+			socket.on("game.over", function(user) {
+				//clear platform
+				$("#platform").html("");
+				//Init array
+				cheese = [];
+				initUser(user);
 			});
 		});
 
 		function initUser(user) {
 			$(".userinfo h1").html(user.nickname).next().html("ID:" + user.id)
-				.next().html("胜场：" + user.win + " 胜率：" + (user.total ? user.win / user.total : 0) + "%");
+				.next().html("胜场：" + user.win + " 胜率：" + (user.total != null ? user.win / user.total : 0) + "%");
 		}
 
 		function initOnline(users) {
@@ -138,14 +145,14 @@
 			var html = "";
 			for(var i = 0; i < rooms.length; i++) {
 				var temp = rooms[i]; //数组
-				html += '<div data-roomname='+temp.roomname+'>';
+				html += '<div data-roomname=' + temp.roomname + '>';
 				html += '<img src="img/room.png"/>';
 				html += '<p>' + temp.roomname + '</p>';
 				html += '</div>';
 			}
 			$(".rooms .body").html(html);
-			$(".rooms .body div").click(function(){
-				socket.emit("room.join",$(this).data("roomname"));
+			$(".rooms .body div").click(function() {
+				socket.emit("room.join", $(this).data("roomname"));
 			})
 		}
 
@@ -168,26 +175,25 @@
 				return "";
 			}
 		}
-		
-		function joinRoom(room,iscreate){
-			var html ="";
+
+		function joinRoom(room, iscreate) {
+			var html = "";
 			html += "player1:" + room.player1.nickname;
-			if(room.player2){
-				html += "player2:" + room.player2.nickname ;
+			if(room.player2) {
+				html += "player2:" + room.player2.nickname;
 			}
-			if(iscreate){
+			if(iscreate) {
 				html += "<button id='startgame'>start</button>";
 			}
 			html += "<button id='stopgame'>quit</button>";
 			$(".rooms .body").html(html);
-			$("#startgame").click(function(){
+			$("#startgame").click(function() {
 				socket.emit("game.start");
 			});
-			$("#stopgame").click(function(){
+			$("#stopgame").click(function() {
 				socket.emit("game.stop");
 			})
 		}
-		
 	</script>
 
 </html>

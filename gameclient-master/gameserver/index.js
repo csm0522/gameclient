@@ -88,11 +88,37 @@ io.on('connection', function(socket) {
 			io.sockets.emit("user.online", getArr(users));
 		}
 	});
-
+	//change data between the player1 and player2
 	socket.on("game.changedata", function(data) {
 		var user = users[socket.id.replace("/#", '')];
 		socket.in(user.room).emit("game.changedata", data);
 	});
+
+	//the order of gameover 
+	socket.on("game.over", function() {
+		//find the player
+		var user = users[socket.id.replace("/#", '')];
+		var room = rooms[user.room];
+		//to figure out who is winner
+		var winner = user.id == room.player1.id ? room.player1 : room.player2;
+		var loser = user.id == room.player1.id ? room.player2 : room.player1;
+		//update the info of player in the room
+		winner.win += 1;
+		winner.total += 1;
+		winner.status = 2;
+		loser.total += 1;
+		loser.status = 2;
+		//return the order of gameover
+		socket.emit("game.over", winner);
+		socket.in(user.room).emit("game.over", loser);
+		//send system info
+		io.sockets.in(user.room).emit("chat.newchat", {
+			nickname: "系统消息",
+			msg: winner.nickname + "win！"
+		});
+		//update online list
+		io.sockets.emit('user.online', getArr(users));
+	})
 
 });
 //object转为数组
