@@ -119,6 +119,9 @@
 				$("#platform").html("");
 				//Init array
 				cheese = [];
+
+				//update the localstorage of user
+				localStorage.setItem("user", JSON.stringify(user));
 				initUser(user);
 			});
 		});
